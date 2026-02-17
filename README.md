@@ -19,3 +19,30 @@ Production-style lakehouse pipeline on MovieLens (raw → bronze → silver → 
 ```bash
 make install
 make format lint type test
+```
+
+## Quickstart (Databricks)
+
+1. Create schema(s) and a Volume
+2. Upload `ratings.csv`, `movies.csv`, `links.csv`, `tags.csv` to the Volume
+3. Run notebooks in order:
+   1. `01_bronze_ingest.py`
+   2. `02_silver_clean_join.py`
+   3. `03_gold_features.py`
+   4. `04_train_als.py`
+
+## Data Sources
+
+- MovieLens CSV datasets (`ratings` / `movies` / `links` / `tags`)
+- Optional enrichment (JSON) added later for director/budget/poster metadata
+
+## Demo Queries
+
+See `notebooks/05_demo_queries.sql`.
+
+## Tradeoffs (v0.1)
+
+- SCD1 overwrite for Silver tables (idempotent + simple)
+- Partition strategy documented in Gold
+- Model cold-start handled via `coldStartStrategy="drop"`
+
