@@ -1,0 +1,40 @@
+[project]
+name = "movielens-lakehouse"
+version = "0.1.0"
+description = "Production-style lakehouse pipeline + ALS recommender on MovieLens using Databricks + Spark."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.6",
+  "mypy>=1.10",
+  "types-requests",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "N"]
+ignore = ["E501"]  # keep formatting simple; ruff format handles most
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+no_implicit_optional = true
+check_untyped_defs = true
+strict_optional = true
+mypy_path = "src"
+packages = ["movielens"]
+exclude = ["notebooks/"]
