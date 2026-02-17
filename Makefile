@@ -1,17 +1,22 @@
-.PHONY: install lint format type test
+.PHONY: install format lint type test check
+
+PY ?= python3
 
 install:
-	python -m pip install -U pip
-	pip install -e ".[dev]"
+	$(PY) -m pip install -U pip
+	$(PY) -m pip install -e ".[dev,local]"
+
 
 format:
-	ruff format .
+	$(PY) -m ruff format .
 
 lint:
-	ruff check .
+	$(PY) -m ruff check .
 
 type:
-	mypy .
+	$(PY) -m mypy .
 
 test:
-	pytest -q
+	$(PY) -m pytest -q
+
+check: format lint type test

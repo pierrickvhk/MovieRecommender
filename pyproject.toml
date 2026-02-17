@@ -4,7 +4,10 @@ version = "0.1.0"
 description = "Production-style lakehouse pipeline + ALS recommender on MovieLens using Databricks + Spark."
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+  "pyspark>=3.5",
+  "delta-spark>=3.2",
+  ]
 
 [project.optional-dependencies]
 dev = [
@@ -13,15 +16,23 @@ dev = [
   "mypy>=1.10",
   "types-requests",
 ]
+local = [
+  "pyspark>=3.5",
+  "delta-spark>=3.2",
+]
+
 
 [tool.ruff]
 line-length = 100
-target-version = "py310"
+target-version = "py311"
 src = ["src", "tests"]
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "B", "UP", "N"]
+select = ["E", "F", "I", "N", "UP"]
 ignore = ["E501"]  # keep formatting simple; ruff format handles most
+
+[tool.ruff.lint.per-file-ignores]
+"notebooks/*.py" = ["F821", "N812"]
 
 [tool.ruff.format]
 quote-style = "double"

@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import logging
+
 from pyspark.sql import functions as F
 
-from movielens.config import Paths, BronzeTables
+from movielens.config import BronzeTables, Paths
 from movielens.io import default_schemas, read_csv, read_json, write_delta_table
 
 logging.basicConfig(level=logging.INFO)
@@ -19,8 +20,8 @@ schemas = default_schemas()
 
 # --- Read sources ---
 ratings_df = read_csv(spark, paths.ratings_path(), schemas.ratings)
-movies_df  = read_csv(spark, paths.movies_path(), schemas.movies)
-links_df   = read_csv(spark, paths.links_path(), schemas.links)
+movies_df = read_csv(spark, paths.movies_path(), schemas.movies)
+links_df = read_csv(spark, paths.links_path(), schemas.links)
 
 # Scraped
 scraped_raw = read_json(spark, paths.scraped_path(), schemas.scraped)
@@ -37,6 +38,7 @@ write_delta_table(movies_df, tables.movies)
 write_delta_table(links_df, tables.links)
 write_delta_table(scraped_df, tables.scraped)
 
+
 # --- Run summary ---
 def summarize(name: str) -> None:
     df = spark.table(name)
@@ -44,6 +46,7 @@ def summarize(name: str) -> None:
     print("rows:", df.count())
     df.printSchema()
     display(df.limit(5))
+
 
 for t in [tables.ratings, tables.movies, tables.links, tables.scraped]:
     summarize(t)

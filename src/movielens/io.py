@@ -2,13 +2,12 @@ from __future__ import annotations
 
 import logging
 from dataclasses import dataclass
-from typing import Optional
 
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import (
+    DoubleType,
     IntegerType,
     LongType,
-    DoubleType,
     StringType,
     StructField,
     StructType,
@@ -88,7 +87,7 @@ def read_csv(
 def read_json(
     spark: SparkSession,
     path: str,
-    schema: Optional[StructType] = None,
+    schema: StructType | None = None,
 ) -> DataFrame:
     logger.info("Reading JSON: %s", path)
     reader = spark.read.format("json").option("mode", "PERMISSIVE")
@@ -99,9 +98,4 @@ def read_json(
 
 def write_delta_table(df: DataFrame, table_name: str, mode: str = "overwrite") -> None:
     logger.info("Writing Delta table %s (mode=%s)", table_name, mode)
-    (
-        df.write.format("delta")
-        .mode(mode)
-        .option("overwriteSchema", "true")
-        .saveAsTable(table_name)
-    )
+    (df.write.format("delta").mode(mode).option("overwriteSchema", "true").saveAsTable(table_name))
