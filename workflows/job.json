@@ -11,7 +11,7 @@
       "task_key": "bronze_ingest",
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Workspace/Users/pierrick.vanhoecke@bunkco.be/01_bronze_ingest",
+        "notebook_path": "//Workspace/Shared/movielens-lakehouse/notebooks/01_bronze_ingest",
         "source": "WORKSPACE"
       },
       "timeout_seconds": 0,
@@ -27,7 +27,7 @@
       ],
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Workspace/Users/pierrick.vanhoecke@bunkco.be/02_silver_clean_join",
+        "notebook_path": "/Workspace/Shared/movielens-lakehouse/notebooks/02_silver_clean_join",
         "source": "WORKSPACE"
       },
       "timeout_seconds": 0,
@@ -43,7 +43,7 @@
       ],
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Workspace/Users/pierrick.vanhoecke@bunkco.be/03_gold_features",
+        "notebook_path": "/Workspace/Shared/movielens-lakehouse/notebooks/03_gold_features",
         "source": "WORKSPACE"
       },
       "timeout_seconds": 0,
@@ -59,7 +59,7 @@
       ],
       "run_if": "ALL_SUCCESS",
       "notebook_task": {
-        "notebook_path": "/Workspace/Users/pierrick.vanhoecke@bunkco.be/04_train_als",
+        "notebook_path": "/Workspace/Shared/movielens-lakehouse/notebooks/04_train_als",
         "source": "WORKSPACE"
       },
       "timeout_seconds": 0,
