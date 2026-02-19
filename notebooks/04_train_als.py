@@ -14,7 +14,7 @@ from pyspark.sql.window import Window
 # -----------------------------
 GOLD = "workspace.movielens_gold"
 
-# Your existing volume (based on your screenshots)
+# Your existing volume
 BASE_VOL_DBFS = "dbfs:/Volumes/workspace/movielens/movielens_files"
 ARTIFACTS_DBFS = f"{BASE_VOL_DBFS}/artifacts"
 MODEL_PATH_DBFS = f"{ARTIFACTS_DBFS}/als_model"
@@ -26,13 +26,13 @@ DEMO_RECS_TABLE = f"{GOLD}.als_recommendations_demo_flat"
 SCORE_MIN = 0.5
 SCORE_MAX = 5.0
 
-# Demo users (you can change)
+# Demo users
 DEMO_USERS = [1, 10, 100]
 
-# Candidate pool size for demo scoring (keeps compute cheap on Serverless)
+# Candidate pool size for demo scoring
 CANDIDATE_TOPK = 5000
 
-# ALS hyperparams (solid defaults)
+# ALS hyperparams
 ALS_RANK = 50
 ALS_MAXITER = 10
 ALS_REGPARAM = 0.1
@@ -115,9 +115,8 @@ print(f"VAL RMSE:  {val_rmse:.4f}")
 print(f"TEST RMSE: {test_rmse:.4f}")
 
 # -----------------------------
-# Save model to Volume (DBFS root disabled workaround)
+# Save model to Volume
 # -----------------------------
-# Overwrite safely
 try:
     dbutils.fs.rm(MODEL_PATH_DBFS, recurse=True)
 except Exception:
@@ -128,7 +127,6 @@ print("Saved model to:", MODEL_PATH_DBFS)
 
 # -----------------------------
 # Demo Recommendations WITHOUT recommendForAllUsers()
-# (avoids UC higher-order/array explode limitations)
 # -----------------------------
 
 # 1) userFactors & itemFactors
@@ -138,7 +136,7 @@ it = model.itemFactors.select(F.col("id").cast("int").alias("movieId"), F.col("f
 demo_users_df = spark.createDataFrame([(u,) for u in DEMO_USERS], "userId int")
 uf_demo = uf.join(demo_users_df, on="userId", how="inner")
 
-# 2) candidate movies = most-rated movies (cheap + decent)
+# 2) candidate movies = most-rated movies
 popularity = train_df.groupBy("movieId").agg(F.count("*").alias("n_ratings"))
 candidates = (
     popularity.orderBy(F.desc("n_ratings"))
@@ -147,7 +145,7 @@ candidates = (
     .join(it, on="movieId", how="inner")
 )
 
-# 3) remove already-seen movies for those demo users
+# 3) remove already-seen movies for demo users
 seen = (
     train_df.join(demo_users_df, on="userId", how="inner")
     .select("userId", "movieId")

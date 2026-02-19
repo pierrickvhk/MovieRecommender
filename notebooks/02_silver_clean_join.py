@@ -33,7 +33,7 @@ movies_s = (
         ).otherwise(F.split("genres_raw", "\\|"))
     )
     .drop("genres_raw")
-    .dropDuplicates(["movieId"])  # enforce 1 row per movieId
+    .dropDuplicates(["movieId"]) 
 )
 
 # -----------------------------

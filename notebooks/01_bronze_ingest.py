@@ -64,7 +64,7 @@ movies_schema = StructType(
         StructField("movieId", IntegerType(), False),
         StructField("title", StringType(), False),
         StructField("genres", StringType(), True),
-        # debug column (keep it in bronze; very useful to prove data quality)
+        # debug column
         StructField("_corrupt_record", StringType(), True),
     ]
 )
@@ -94,7 +94,6 @@ TABLES = {
 }
 
 def read_csv_strict(path: str, schema: StructType) -> DataFrame:
-    # strict for files that are known clean
     return (
         spark.read.format("csv")
         .option("header", "true")
@@ -168,7 +167,8 @@ for table, (fname, schema) in TABLES.items():
         print(f"Corrupt rows in movies.csv: {bad_count}")
         if bad_count > 0:
             display(bad.limit(20))
-            # Optional: hard fail (uncomment if you want pipeline to stop)
+            
+            # Optional: hard fail 
             # raise RuntimeError(f"movies.csv has {bad_count} corrupt rows. Fix CSV or relax parsing.")
 
         print("Preview movies:")

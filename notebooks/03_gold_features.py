@@ -82,7 +82,7 @@ dim_movies_enriched = (
         F.col("m.genres").alias("genres"),
         F.col("l.imdbId").cast("string").alias("imdbId"),
         F.col("l.tmdbId").cast("string").alias("tmdbId"),
-        # placeholders for scraped fields (v0.1)
+        # placeholders for scraped fields
         F.lit(None).cast("string").alias("director"),
         F.lit(None).cast("string").alias("budget"),
         F.lit(None).cast("string").alias("poster_url"),
