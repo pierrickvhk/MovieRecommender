@@ -46,3 +46,38 @@ See `notebooks/05_demo_queries.sql`.
 - Partition strategy documented in Gold
 - Model cold-start handled via `coldStartStrategy="drop"`
 
+## Databricks Setup
+
+### Storage (Unity Catalog Volume)
+Upload the MovieLens CSVs to this Volume:
+- `/Volumes/workspace/movielens/movielens_files/ratings.csv`
+- `/Volumes/workspace/movielens/movielens_files/movies.csv`
+- `/Volumes/workspace/movielens/movielens_files/links.csv`
+- `/Volumes/workspace/movielens/movielens_files/tags.csv`
+
+### Schemas & Tables
+**Bronze** (`workspace.movielens_bronze`)
+- `bronze_ratings`, `bronze_movies`, `bronze_links`, `bronze_tags`
+
+**Silver** (`workspace.movielens_silver`)
+- `silver_ratings`, `silver_movies`, `silver_links`, `silver_tags`
+- `quarantine_ratings_missing_movie` (audit table)
+
+**Gold** (`workspace.movielens_gold`)
+- `fact_ratings` (partitioned by `user_bucket`)
+- `dim_users`
+- `dim_movies_enriched`
+- `agg_movie_tags`
+- `train_view_als`
+- `gold_user_recommendations`
+
+### Run End-to-End
+A Databricks Job chains the notebooks in order:
+1. `01_bronze_ingest`
+2. `02_silver_clean_join`
+3. `03_gold_features`
+4. `04_train_als`
+
+Job definition: `workflows/job.json`
+
+
