@@ -59,4 +59,4 @@ FROM workspace.movielens_gold.als_recommendations_demo_flat;
 SELECT COUNT(*) AS recs_already_seen
 FROM workspace.movielens_gold.als_recommendations_demo_flat r
 JOIN workspace.movielens_gold.fact_ratings fr
-ON r.userId = fr.userId AND r.movieId = fr.movieId;
+ ON r.userId = fr.userId AND r.movieId = fr.movieId;
