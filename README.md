@@ -101,8 +101,28 @@ Key design decisions:
 - Top-10 results precomputed and stored
 
 This ensures low-latency serving without runtime model inference.
-# 📊 Dashboards & Insights
+# 📊 Workflow & dashboard
 
+<div align="center">
+
+<table>
+<tr>
+<td align="center">
+
+###  🔁 End-to-End Workflow   
+<img src="./pipeline.png" width="450"/>
+
+</td>
+<td align="center">
+
+### 📊 Analytics Dashboard 
+<img src="./dashboard.png" width="650"/>
+
+</td>
+</tr>
+</table>
+
+</div>
 Built using Databricks SQL dashboards powered by the Gold layer.
 
 ## Executive Overview
